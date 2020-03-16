@@ -4,6 +4,7 @@ import ClassFromLecture.*;
 
 import java.util.Iterator;
 import java.util.ListIterator;
+import java.util.NoSuchElementException;
 import java.util.function.Consumer;
 
 public class ExtendedOneWayLinkedListWithHead<T>
@@ -40,6 +41,8 @@ public class ExtendedOneWayLinkedListWithHead<T>
             @Override
             public boolean hasNext()
             {
+                // Check if next index in array border
+
                 int testIndex = lastIndex + 1;
 
                 // If index in the next position is in the array border
@@ -51,19 +54,23 @@ public class ExtendedOneWayLinkedListWithHead<T>
             @Override
             public T next()
             {
+                // If there is next element move index on it and return this element
+
                 if (hasNext())
                 {
                     lastIndex++;
                     return get(lastIndex);
                 }
                 else
-                    return null;
+                    throw new NoSuchElementException();
             }
 
             @Override
             public boolean hasPrevious()
             {
-                int testIndex = lastIndex - 1;
+                // Check if lastIndex is in array border
+
+                int testIndex = lastIndex;
 
                 // If index in the prev position is in the array border
                 if (inBorder(testIndex))
@@ -74,52 +81,75 @@ public class ExtendedOneWayLinkedListWithHead<T>
             @Override
             public T previous()
             {
+                // Return element on the lastIndex and decrease it
+
                 if (hasPrevious())
                 {
+                    T toReturn = get(lastIndex);
                     lastIndex--;
-                    return get(lastIndex);
+                    return toReturn;
                 }
                 else
-                    return null;
+                    throw new NoSuchElementException();
             }
 
             @Override
             public int nextIndex()
             {
+                // Next index is lastIndex+1
+
                 if (hasNext())
                     return lastIndex + 1;
                 else
-                    return -1;
+                    throw new NoSuchElementException();
             }
 
             @Override
             public int previousIndex()
             {
+                // Previous index is just the lastIndex
+
                 if (hasPrevious())
-                    return lastIndex - 1;
+                    return lastIndex;
                 else
-                    return -1;
+                    throw new NoSuchElementException();
             }
 
             @Override
             public void remove()
             {
+                // Remove last element if index was in border
+                // Decrease lastIndex
+
                 if (inBorder(lastIndex))
+                {
                     ExtendedOneWayLinkedListWithHead.this.remove(lastIndex);
+                    lastIndex--;
+                }
+                else
+                    throw new IllegalStateException();
             }
 
             @Override
             public void set(T t)
             {
+                // If lastIndex is in array border change this element
+
                 if (inBorder(lastIndex))
+                {
                     ExtendedOneWayLinkedListWithHead.this.set(lastIndex, t);
+                }
+                else
+                    throw new IllegalStateException();
             }
 
             @Override
             public void add(T t)
             {
-                if (inBorder(lastIndex))
-                    ExtendedOneWayLinkedListWithHead.this.add(lastIndex, t);
+                // Just add new element on the next index (and increase last +1)
+
+                ExtendedOneWayLinkedListWithHead.this.add(lastIndex+1, t);
+                lastIndex++;
             }
 
             boolean inBorder(int index)
