@@ -105,4 +105,34 @@ class ExtendedOneWayLinkedListWithHeadTest {
 
         assertIterableEquals(Arrays.asList(1, 2, 2, 2, 3, 3, 2, 1), actual);
     }
+
+    @Test
+    void myTest()
+    {
+        ListIterator<Integer> iterator = listUnderTest.listIterator();
+        assertEquals(0, iterator.nextIndex());
+        assertEquals(1, iterator.next());
+        assertEquals(1, iterator.nextIndex());
+        assertEquals(2, iterator.next());
+        assertEquals(1, iterator.previousIndex());
+        assertEquals(2, iterator.previous());
+        assertEquals(1, iterator.nextIndex());
+        assertEquals(2, iterator.next());
+        iterator.remove();
+        iterator.set(3);
+        while(iterator.hasPrevious())
+        {
+            iterator.previous();
+        }
+        ArrayList<Integer> actual = new ArrayList<>();
+        while(iterator.hasNext())
+        {
+            actual.add(iterator.next());
+        }
+        assertEquals(Arrays.asList(3, 3), actual);
+        while(iterator.hasPrevious())
+        {
+            iterator.remove();
+        }
+    }
 }

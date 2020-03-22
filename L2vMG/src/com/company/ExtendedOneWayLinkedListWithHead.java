@@ -9,7 +9,7 @@ import java.util.function.Consumer;
 public class ExtendedOneWayLinkedListWithHead
         <T> extends AbstractList<T> implements Iterable<T> {
     private OneWayLinkedListWithHead<T> innerList = new
-            OneWayLinkedListWithHead<>(); // kompozycja
+            OneWayLinkedListWithHead<>();
     @Override
     public ListIterator<T> listIterator() {
         return new ListIterator<T>() {
@@ -77,12 +77,21 @@ public class ExtendedOneWayLinkedListWithHead
 
             @Override
             public int nextIndex() {
-                return cursor;
+                if(hasNext())
+                {
+                    return cursor+1;
+                }
+                throw new IndexOutOfBoundsException();
             }
 
             @Override
             public int previousIndex() {
-                return cursor-1;
+
+                if(hasPrevious())
+                {
+                    return cursor;
+                }
+                throw new IndexOutOfBoundsException();
             }
 
             @Override
@@ -145,4 +154,13 @@ public class ExtendedOneWayLinkedListWithHead
     public int size() {
         return innerList.size();
     }
+    public boolean isEmpty() { return innerList.isEmpty(); }
+    public void clear() { innerList.clear(); }
+    public void add(int index, T data) { innerList.add(index, data); }
+    public int indexOf(Object data) { return innerList.indexOf(data); }
+    public boolean contains(Object data) { return innerList.contains(data);}
+    public T set ( int index, T data){ return innerList.set(index, data); }
+    public T remove(int index) { return innerList.remove(index); }
+    public boolean remove(Object value) { return innerList.remove(value); }
+
 };
