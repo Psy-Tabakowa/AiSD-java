@@ -19,7 +19,6 @@ public class MedianOfMedians<T extends Comparable<T>> {
 			medians.add(kthSmallest(3, list, i-4, i));
 		if((right - left + 1) % 5 != 0)
 			medians.add(kthSmallest(((right - left + 1)%5 + 1)/2, list, right - ((right - left + 1)%5) + 1 ,right));
-		//for(int i=0; i<medians.size(); i++) System.out.print(medians.get(i));
 		return kthSmallest((medians.size()+1)/2, medians);
 	}
 	

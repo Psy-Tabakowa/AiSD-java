@@ -2,39 +2,44 @@ package main;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Random;
 
 public class Main {
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		System.out.println("A");
+	public static void main(String[] args) {		
+		ArrayList<Integer> lista = new ArrayList<Integer>();
+		Random rand = new Random();
+		for(int i=0; i<1000000; i++) lista.add(rand.nextInt());
 		
 		BucketSort<Integer> bucketSort = new BucketSort<Integer>();
 		QuickSort<Integer> quickSort = new QuickSort<Integer>();
 		
-		ArrayList<Integer> lista = new ArrayList<Integer>();
-		Random rand = new Random();
-		for(int i=0; i<1000; i++) lista.add(rand.nextInt(100));
-		
-		
 		ArrayList<Integer> toSort = (ArrayList<Integer>) lista.clone();
 		Measurement.start();
-		quickSort.quickSort(lista);
-		System.out.println("pomiar czasu: " + Measurement.end() + "s");
+		quickSort.quickSort(toSort);
+		double time = Measurement.end();
+		System.out.println("quick sort: " + time + "s");
 		
 		toSort = (ArrayList<Integer>) lista.clone();
 		Measurement.start();
-		bucketSort.bucketSort(lista);
-		System.out.println("pomiar czasu: " + Measurement.end() + "s");
+		bucketSort.bucketSort(toSort);
+		time = Measurement.end();
+		System.out.println("bucket sort: " + time + "s");
 		
-		for(Integer i : lista) System.out.print(i + " ");
-		System.out.println();
+		int [] arrayToSort = new int[lista.size()];
+		for(int i=0; i<lista.size(); i++) arrayToSort[i] = lista.get(i);
+		Measurement.start();
+		Arrays.sort(arrayToSort);
+		time = Measurement.end();
+		System.out.println("Arrays.sort: " + time + "s");
 		
-		MedianOfMedians<Integer> medianOfMedians = new MedianOfMedians<Integer>();
+		toSort = (ArrayList<Integer>) lista.clone();
+		Measurement.start();
+		Collections.sort(toSort);
+		time = Measurement.end();
+		System.out.println("Collections.sort: " + time + "s");
 		
-		System.out.println(medianOfMedians.medianOfMedians(lista));
-
 	}
 }
 

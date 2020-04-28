@@ -3,8 +3,10 @@ package main;
 import java.util.ArrayList;
 
 public class BucketSort<T extends Number & Comparable<T>>{
-	private void insertSort(ArrayList<T> list) {
+	public void insertSort(ArrayList<T> list) {
+		if(list == null) throw new NullPointerException("Arguent 'list' cannot be null");
 		if(list.size() < 2) return;
+		
 		for(int i=0; i<list.size(); i++) {
 			int j = i;
 			while(j > 0 && list.get(j-1).compareTo(list.get(j)) > 0) {
@@ -42,16 +44,6 @@ public class BucketSort<T extends Number & Comparable<T>>{
 			if(idx >= list.size()) idx = list.size()-1;
 			buckets[idx].add(item);
 		}
-		
-		/*
-		for(int i=0; i<buckets.length; i++) {
-			System.out.println("b" + i);
-			for(int j=0; j<buckets[i].size(); j++) {
-				System.out.print(" " + buckets[i].get(j));
-			}
-			System.out.println();
-		}
-		*/
 		
 		for(int i=0; i<buckets.length; i++) insertSort(buckets[i]);
 		
